@@ -1,29 +1,56 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-// --- PENGATURAN MODEM GSM ---
-// Note: TINY_GSM_MODEM_SIM800 is defined in platformio.ini build_flags
-
-// Ganti APN sesuai dengan kartu SIM yang Anda gunakan
-static const char APN[] = "M2MAUTOTRONIC";
-static const char GPRS_USER[] = "";
-static const char GPRS_PASS[] = "";
-
-// --- PENGATURAN API ---
+// --- COMMON API CONFIGURATION ---
 static const char* API_URL = "https://api-vatsubsoil-dev.ggfsystem.com/subsoils";
-static const char* DEVICE_ID = "BJK0001"; // Ganti dengan ID perangkat Anda
+static const char* DEVICE_ID = "BJK0001";
 
-// --- PENGATURAN PIN (SESUAI DENGAN test_sensor_bajak.ino) ---
+// --- GSM MODULE CONFIGURATION ---
+// GSM Module Configuration - LILYGO T-Call SIM800L
+#define MODEM_RST            5
+#define MODEM_PWKEY          4
+#define MODEM_POWER_ON       23
+#define MODEM_TX             27
+#define MODEM_RX             26
+
+// GSM Serial Configuration
+static const int GSM_RX_PIN = MODEM_RX;  // 26
+static const int GSM_TX_PIN = MODEM_TX;  // 27
+static const long GSM_BAUD_RATE = 9600;  // SIM800L default baudrate
+
+// GSM Network Configuration (Production API Configuration - Working Format)
+static const char* GSM_APN = "M2MAUTOTRONIC";
+static const char* GSM_USER = "";
+static const char* GSM_PASS = "";
+
+// GSM Production API Configuration (Tested & Working)
+static const char* GSM_SERVER = "api-vatsubsoil-dev.ggfsystem.com";
+static const char* GSM_RESOURCE = "/subsoils";
+static const int GSM_PORT = 443;  // HTTPS port untuk API production
+
+// GSM Settings
+static const unsigned long GSM_TIMEOUT = 30000; // 30 seconds
+static const unsigned long GSM_RETRY_INTERVAL = 60000; // 60 seconds
+static const int GSM_MAX_RETRIES = 3;
+
+// --- WIFI CONFIGURATION ---
+// WiFi Configuration
+static const char* WIFI_SSID = "Kiwi Gejrot";
+static const char* WIFI_PASSWORD = "1122334455";
+
+// WiFi Settings
+static const unsigned long WIFI_TIMEOUT = 10000; // 10 seconds
+static const unsigned long WIFI_RETRY_INTERVAL = 30000; // 30 seconds
+
+// NTP Configuration
+static const char* NTP_SERVER1 = "pool.ntp.org";
+static const char* NTP_SERVER2 = "time.nist.gov";
+static const int TIMEZONE_OFFSET = 7 * 3600; // UTC+7 (WIB)
+
+// --- COMMON PIN CONFIGURATION ---
 // Pin untuk LED Indikator
 #define LED1_PIN 12
 #define LED2_PIN 25
-
-// Pin untuk modem SIM800L
-#define MODEM_RST 5
-#define MODEM_PWKEY 4
-#define MODEM_POWER_ON 23
-#define MODEM_TX 27
-#define MODEM_RX 26
 
 // Pin untuk GPS (menggunakan HardwareSerial2)
 #define GPS_RX_PIN 22
@@ -44,15 +71,16 @@ static const char* DEVICE_ID = "BJK0001"; // Ganti dengan ID perangkat Anda
 #define SD_SCLK 14
 #define SD_CS 2
 
-// --- PENGATURAN INTERVAL ---
+// --- COMMON TIMING CONFIGURATION ---
 static const unsigned long SAVE_SD_INTERVAL = 1000;  // Simpan ke SD setiap 1 detik
 static const unsigned long POST_INTERVAL = 20000;    // Kirim ke API setiap 20 detik
+static const unsigned long HTTP_TIMEOUT = 20000;     // 20 seconds
 
-// --- PENGATURAN SENSOR ---
+// --- SENSOR CONFIGURATION ---
 #define SENSOR_BAUD_RATE 9600
 #define SENSOR_READ_DELAY 4  // Delay untuk stabilitas sensor reading (ms)
 
-// --- PENGATURAN DEBUGGING ---
+// --- DEBUGGING CONFIGURATION ---
 #define SENSOR_DEBUG_INTERVAL 10000  // Debug sensor setiap 10 detik
 #define GPS_DEBUG_INTERVAL 15000     // Debug GPS setiap 15 detik
 

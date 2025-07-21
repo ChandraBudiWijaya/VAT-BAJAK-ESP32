@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <SD.h>
-#include "config.h"
+#include "../../include/config.h"
 #include "sd_manager.h"
 
 void setup_sd_card() {
